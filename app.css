@@ -1,1 +1,73 @@
+# Create a new React project
+npx create-react-app real-estate-app
+cd real-estate-app
+
+# Initialize Git (if not already)
+git init
+git remote add origin https://github.com/<YourUsername>/real-estate-app.git
+
+src/
+ ├─ App.js        # Main component
+ ├─ App.css       # Styles (from earlier CSS example)
+ ├─ components/
+ │   ├─ Header.jsx
+ │   ├─ Sidebar.jsx
+ │   ├─ PropertyCard.jsx
+ │   └─ Dashboard.jsx
+ └─ assets/
+     └─ sample images
+export default function Header() {
+  return (
+    <header className="header">
+      Real Estate Investment Tracker
+    </header>
+  );
+}
+export default function PropertyCard({ property }) {
+  return (
+    <div className="property-card">
+      <img src={property.image} alt={property.address} />
+      <div className="property-info">
+        <h4>{property.address}</h4>
+        <p>Value: ${property.value.toLocaleString()}</p>
+        <p>Rent: ${property.rent.toLocaleString()}/month</p>
+      </div>
+    </div>
+  );
+}
+import PropertyCard from './PropertyCard';
+
+export default function Dashboard() {
+  const properties = [
+    { id:1, address:"123 Main St", value:320000, rent:1800, image:"/house1.jpg" },
+    { id:2, address:"456 Oak Ave", value:450000, rent:2200, image:"/house2.jpg" }
+  ];
+
+  return (
+    <main className="main-content">
+      <h2>My Properties</h2>
+      <div className="property-grid">
+        {properties.map(p => <PropertyCard key={p.id} property={p} />)}
+      </div>
+    </main>
+  );
+}
+import './App.css';
+import Header from './components/Header';
+import Dashboard from './components/Dashboard';
+
+export default function App() {
+  return (
+    <>
+      <Header />
+      <div className="dashboard">
+        <aside className="sidebar">
+          <h3>Portfolio</h3>
+          <button>Add Property</button>
+        </aside>
+        <Dashboard />
+      </div>
+    </>
+  );
+}
 
