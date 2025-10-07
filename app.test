@@ -1,1 +1,46 @@
+import { render, screen, fireEvent } from "@testing-library/react";
+import App from "./App";
+
+test("renders header text", () => {
+  render(<App />);
+  const headerElement = screen.getByText(/Dream Homes Tracker/i);
+  expect(headerElement).toBeInTheDocument();
+});
+
+test("renders initial property cards", () => {
+  render(<App />);
+  const propertyCards = screen.getAllByRole("img");
+  expect(propertyCards.length).toBeGreaterThan(0);
+});
+
+test("can add a new property", () => {
+  render(<App />);
+
+  // Fill out the form
+  fireEvent.change(screen.getByPlaceholderText(/Address/i), {
+    target: { value: "789 Pine St" },
+  });
+  fireEvent.change(screen.getByPlaceholderText(/Location/i), {
+    target: { value: "Miami" },
+  });
+  fireEvent.change(screen.getByPlaceholderText(/Value/i), {
+    target: { value: "950000" },
+  });
+  fireEvent.change(screen.getByPlaceholderText(/Rent/i), {
+    target: { value: "3000" },
+  });
+
+  // Submit the form
+  fireEvent.click(screen.getByText(/Add Property/i));
+
+  // Check that the new property appears
+  const newProperty = screen.getByText(/789 Pine St/i);
+  expect(newProperty).toBeInTheDocument();
+});
+
+test("footer renders correctly", () => {
+  render(<App />);
+  const footerElement = screen.getByText(/Dream Homes. All rights reserved./i);
+  expect(footerElement).toBeInTheDocument();
+});
 
